@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Chandauli Explorer</title>
@@ -542,6 +541,19 @@ footer p{
   line-height:1.7;
 }
 
+/* ================= CREATOR NAME HIGHLIGHT ================= */
+
+.creator-name{
+  display:inline-block;
+  color:#ffd700;
+  font-weight:800;
+  font-size:20px;
+  text-shadow:
+    0 0 5px rgba(255,215,0,.5),
+    0 0 10px rgba(255,215,0,.5),
+    0 0 18px rgba(255,215,0,.35);
+}
+
 /* ================= MOBILE ================= */
 
 @media(max-width:950px){
@@ -615,6 +627,8 @@ footer p{
 <div id="scene"></div>
 <div class="background"></div>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
   <div class="logo">
@@ -623,9 +637,19 @@ footer p{
   </div>
 
   <nav>
-    <button onclick="scrollToSection('explorer')">EXPLORE</button>
-    <button onclick="scrollToSection('facts')">FACTS</button>
-    <button onclick="scrollToSection('footer')">ABOUT</button>
+
+    <button onclick="scrollToSection('explorer')">
+      EXPLORE
+    </button>
+
+    <button onclick="scrollToSection('facts')">
+      FACTS
+    </button>
+
+    <button onclick="scrollToSection('footer')">
+      ABOUT
+    </button>
+
   </nav>
 
 </header>
@@ -848,7 +872,10 @@ footer p{
   </p>
 
   <p>
-    Made by Ashutosh Yadav and Anshu Kumar
+    Made by
+    <span class="creator-name">Ashutosh Yadav</span>
+    and
+    <span class="creator-name">Anshu Kumar</span>
   </p>
 
 </div>
@@ -859,7 +886,6 @@ footer p{
 <!-- ================= THREE.JS ================= -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 
 <script>
 
@@ -1004,8 +1030,6 @@ window.addEventListener("resize",()=>{
 
 const places = [
 
-/* ================= WATERFALLS ================= */
-
 {
  name:"Rajdari Waterfall",
  type:"waterfall nature",
@@ -1106,8 +1130,6 @@ const places = [
 },
 
 
-/* ================= DAMS ================= */
-
 {
  name:"Latif Shah Dam",
  type:"dam nature",
@@ -1179,8 +1201,6 @@ const places = [
  map:"Mushakhard Dam, Chandauli, Uttar Pradesh"
 },
 
-
-/* ================= HERITAGE ================= */
 
 {
  name:"Latif Shah Tomb",
@@ -1254,8 +1274,6 @@ const places = [
 },
 
 
-/* ================= NATURE ================= */
-
 {
  name:"Chandraprabha Wildlife Sanctuary",
  type:"nature",
@@ -1280,8 +1298,6 @@ const places = [
  map:"Chandraprabha Wildlife Sanctuary, Chandauli"
 },
 
-
-/* ================= VILLAGES ================= */
 
 {
  name:"Baburi",
@@ -1484,7 +1500,7 @@ function renderCards(){
 
       <article
         class="card"
-        onclick="openPlace(${i})">
+        onclick="openPlace(${places.indexOf(p)})">
 
         <div class="cardImage">
 
@@ -1710,26 +1726,11 @@ function scrollToSection(id){
     });
 
 }
-  <footer>
-  <p>
-    Made by
-    <span class="creator-name">Ashutosh Yadav</span>
-    and
-    <span class="creator-name">Anshu Kumar</span>
-  </p>
-</footer>
-
-<style>
-  .creator-name {
-    font-weight: 800;
-    font-size: 18px;
-    color: #ffd700;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
-  }
-</style>
 
 
-/* INITIAL */
+/* ==========================================
+   INITIAL
+========================================== */
 
 renderCards();
 
