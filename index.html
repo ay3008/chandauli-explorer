@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Chandauli Explorer</title>
@@ -9,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
   --bg:#06130f;
   --green:#0b241a;
@@ -19,9 +23,13 @@
   --line:rgba(255,255,255,.12);
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   margin:0;
@@ -558,6 +566,7 @@ footer p{
   .factGrid{
     grid-template-columns:repeat(2,1fr);
   }
+
 }
 
 @media(max-width:600px){
@@ -594,8 +603,11 @@ footer p{
   .detailBody{
     padding:0 20px 50px;
   }
+
 }
+
 </style>
+
 </head>
 
 <body>
@@ -833,6 +845,10 @@ footer p{
   <p>
     Waterfall information and photographs are linked
     to official Chandauli district information where available.
+  </p>
+
+  <p>
+    Made by Ashutosh Yadav and Anshu Kumar
   </p>
 
 </div>
@@ -1527,14 +1543,14 @@ function openPlace(index){
 
   const gallery = p.gallery
     ?
-    p.gallery.map(img=>`
-      <img
-        src="${img}"
-        alt="${p.name} photo"
-        onerror="this.style.display='none'">
-    `).join("")
+      p.gallery.map(img=>`
+        <img
+          src="${img}"
+          alt="${p.name} photo"
+          onerror="this.style.display='none'">
+      `).join("")
     :
-    "";
+      "";
 
 
   document.getElementById("panel").innerHTML=`
@@ -1655,6 +1671,7 @@ function openPlace(index){
     .classList.add("open");
 
   document.body.style.overflow="hidden";
+
 }
 
 
@@ -1693,6 +1710,23 @@ function scrollToSection(id){
     });
 
 }
+  <footer>
+  <p>
+    Made by
+    <span class="creator-name">Ashutosh Yadav</span>
+    and
+    <span class="creator-name">Anshu Kumar</span>
+  </p>
+</footer>
+
+<style>
+  .creator-name {
+    font-weight: 800;
+    font-size: 18px;
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+  }
+</style>
 
 
 /* INITIAL */
@@ -1702,4 +1736,5 @@ renderCards();
 </script>
 
 </body>
+
 </html>
