@@ -1,1741 +1,276 @@
-<!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Chandauli Explorer</title>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10251c">
+<title>Chandauli Explorer | The Soul of Eastern UP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-:root{
-  --bg:#06130f;
-  --green:#0b241a;
-  --gold:#d8b45a;
-  --gold2:#f2dc96;
-  --text:#f5f1e7;
-  --muted:#9aaea5;
-  --line:rgba(255,255,255,.12);
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:"DM Sans",sans-serif;
-  overflow-x:hidden;
-}
-
-/* ================= 3D BACKGROUND ================= */
-
-#scene{
-  position:fixed;
-  inset:0;
-  z-index:-3;
-}
-
-#scene canvas{
-  width:100%;
-  height:100%;
-}
-
-.background{
-  position:fixed;
-  inset:0;
-  z-index:-2;
-  background:
-    radial-gradient(circle at 70% 25%,rgba(50,150,100,.20),transparent 35%),
-    linear-gradient(90deg,rgba(2,15,10,.96),rgba(2,20,14,.55),rgba(2,20,14,.20));
-  pointer-events:none;
-}
-
-/* ================= HEADER ================= */
-
-header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  height:78px;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 5%;
-  background:rgba(3,15,10,.72);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(18px);
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-family:"Playfair Display",serif;
-  letter-spacing:4px;
-  font-size:19px;
-}
-
-.logoCircle{
-  width:42px;
-  height:42px;
-  border:1px solid var(--gold);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:var(--gold2);
-}
-
-nav{
-  display:flex;
-  gap:5px;
-}
-
-nav button{
-  background:none;
-  border:0;
-  color:#d8e2dd;
-  padding:10px 14px;
-  cursor:pointer;
-}
-
-nav button:hover{
-  color:var(--gold2);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  min-height:100vh;
-  padding:150px 7% 90px;
-  display:flex;
-  align-items:center;
-}
-
-.heroContent{
-  max-width:900px;
-}
-
-.eyebrow{
-  color:var(--gold2);
-  text-transform:uppercase;
-  letter-spacing:5px;
-  font-size:11px;
-}
-
-.hero h1{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(70px,12vw,160px);
-  line-height:.82;
-  letter-spacing:-7px;
-  margin:25px 0;
-}
-
-.hero h1 span{
-  color:transparent;
-  -webkit-text-stroke:1px rgba(255,255,255,.7);
-}
-
-.hero p{
-  max-width:680px;
-  color:#c1cec8;
-  line-height:1.8;
-  font-size:15px;
-}
-
-.buttons{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-top:28px;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:48px;
-  padding:0 22px;
-  border-radius:7px;
-  text-decoration:none;
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:1px;
-  cursor:pointer;
-}
-
-.gold{
-  background:var(--gold);
-  color:#172016;
-}
-
-.outline{
-  border:1px solid var(--line);
-  color:white;
-  background:rgba(255,255,255,.04);
-}
-
-/* ================= EXPLORER ================= */
-
-.explorer{
-  padding:80px 6% 110px;
-}
-
-.container{
-  max-width:1450px;
-  margin:auto;
-}
-
-.sectionTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:20px;
-  margin-bottom:28px;
-}
-
-.label{
-  color:var(--gold2);
-  text-transform:uppercase;
-  letter-spacing:4px;
-  font-size:10px;
-  margin-bottom:10px;
-}
-
-.title{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(42px,6vw,70px);
-  margin:0;
-}
-
-.search{
-  width:340px;
-  height:50px;
-  border-radius:28px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.06);
-  color:white;
-  padding:0 20px;
-  outline:none;
-}
-
-.filters{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:25px;
-}
-
-.filter{
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.04);
-  color:#ccd8d2;
-  border-radius:25px;
-  padding:10px 16px;
-  cursor:pointer;
-}
-
-.filter.active,
-.filter:hover{
-  background:var(--gold);
-  color:#172016;
-}
-
-/* ================= CARDS ================= */
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.card{
-  position:relative;
-  min-height:410px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:#0a2018;
-  cursor:pointer;
-  transition:.35s;
-}
-
-.card:hover{
-  transform:translateY(-7px);
-  border-color:rgba(216,180,90,.6);
-}
-
-.cardImage{
-  position:absolute;
-  inset:0;
-}
-
-.cardImage img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.6s;
-}
-
-.card:hover .cardImage img{
-  transform:scale(1.07);
-}
-
-.cardImage:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    transparent 25%,
-    rgba(0,10,7,.35) 45%,
-    rgba(0,10,7,.96) 100%
-  );
-}
-
-.cardContent{
-  position:absolute;
-  z-index:2;
-  left:0;
-  right:0;
-  bottom:0;
-  padding:25px;
-}
-
-.cardType{
-  color:var(--gold2);
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-size:9px;
-}
-
-.card h3{
-  font-family:"Playfair Display",serif;
-  font-size:30px;
-  margin:8px 0;
-}
-
-.card p{
-  color:#adbbb5;
-  font-size:12px;
-  line-height:1.6;
-}
-
-/* ================= FACTS ================= */
-
-.facts{
-  padding:70px 6%;
-  background:rgba(2,18,12,.55);
-}
-
-.factGrid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-top:30px;
-}
-
-.fact{
-  padding:25px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.04);
-  border-radius:12px;
-}
-
-.fact strong{
-  display:block;
-  color:var(--gold2);
-  font-family:"Playfair Display",serif;
-  font-size:35px;
-}
-
-.fact span{
-  color:#8fa39a;
-  text-transform:uppercase;
-  font-size:10px;
-  letter-spacing:2px;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:500;
-  display:flex;
-  justify-content:flex-end;
-  background:rgba(0,7,4,.82);
-  backdrop-filter:blur(15px);
-  opacity:0;
-  visibility:hidden;
-  transition:.3s;
-}
-
-.modal.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.panel{
-  width:min(900px,100%);
-  height:100%;
-  overflow:auto;
-  background:#071c14;
-  transform:translateX(100%);
-  transition:.4s;
-}
-
-.modal.open .panel{
-  transform:none;
-}
-
-.close{
-  position:fixed;
-  top:18px;
-  right:18px;
-  z-index:10;
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:rgba(0,0,0,.55);
-  border:1px solid rgba(255,255,255,.3);
-  color:white;
-  font-size:22px;
-  cursor:pointer;
-}
-
-.detailHero{
-  height:430px;
-  position:relative;
-}
-
-.detailHero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.detailHero:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(transparent 30%,#071c14 100%);
-}
-
-.detailTitle{
-  position:absolute;
-  z-index:3;
-  left:35px;
-  bottom:30px;
-}
-
-.detailTitle small{
-  color:var(--gold2);
-  letter-spacing:3px;
-  text-transform:uppercase;
-}
-
-.detailTitle h2{
-  font-family:"Playfair Display",serif;
-  font-size:58px;
-  margin:8px 0 0;
-}
-
-.detailBody{
-  padding:0 35px 70px;
-}
-
-.description{
-  color:#b8c5bf;
-  line-height:1.9;
-}
-
-.infoGrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:25px;
-}
-
-.info{
-  padding:18px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--line);
-  border-radius:10px;
-}
-
-.info span{
-  display:block;
-  color:#71867c;
-  font-size:9px;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  margin-bottom:7px;
-}
-
-/* ================= GALLERY ================= */
-
-.galleryTitle{
-  margin-top:40px;
-  font-family:"Playfair Display",serif;
-  font-size:32px;
-}
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:18px;
-}
-
-.gallery img{
-  width:100%;
-  height:190px;
-  object-fit:cover;
-  border-radius:10px;
-  border:1px solid var(--line);
-  transition:.3s;
-}
-
-.gallery img:hover{
-  transform:scale(1.03);
-}
-
-/* ================= MAP ================= */
-
-.map{
-  width:100%;
-  height:300px;
-  border:0;
-  border-radius:12px;
-  margin-top:15px;
-}
-
-/* ================= FOOTER ================= */
-
-footer{
-  padding:60px 6% 30px;
-  background:#020d09;
-  border-top:1px solid var(--line);
-}
-
-footer h2{
-  font-family:"Playfair Display",serif;
-  font-size:35px;
-}
-
-footer p{
-  color:#75877f;
-  max-width:600px;
-  line-height:1.7;
-}
-
-/* ================= CREATOR NAME HIGHLIGHT ================= */
-
-.creator-name{
-  display:inline-block;
-  color:#ffd700;
-  font-weight:800;
-  font-size:20px;
-  text-shadow:
-    0 0 5px rgba(255,215,0,.5),
-    0 0 10px rgba(255,215,0,.5),
-    0 0 18px rgba(255,215,0,.35);
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:950px){
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .sectionTop{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .search{
-    width:100%;
-  }
-
-  nav{
-    display:none;
-  }
-
-  .factGrid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:600px){
-
-  .hero h1{
-    font-size:65px;
-    letter-spacing:-4px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .factGrid{
-    grid-template-columns:1fr;
-  }
-
-  .infoGrid{
-    grid-template-columns:1fr;
-  }
-
-  .gallery{
-    grid-template-columns:1fr;
-  }
-
-  .detailHero{
-    height:330px;
-  }
-
-  .detailTitle h2{
-    font-size:40px;
-  }
-
-  .detailBody{
-    padding:0 20px 50px;
-  }
-
-}
-
+:root{--g:#10251c;--g2:#1d4030;--gold:#dfbd78;--cream:#f7f5ef;--muted:#6a776e;--line:#e4e8e0;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{margin:0;background:var(--cream);color:#19271e;font-family:"DM Sans",sans-serif}
+a{text-decoration:none;color:inherit}button,input,select{font:inherit}button{cursor:pointer}
+.container{width:min(1180px,92%);margin:auto}
+header{position:sticky;top:0;z-index:50;background:#10251cf5;color:white;border-bottom:1px solid #ffffff16;backdrop-filter:blur(12px)}
+.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font:700 21px "Playfair Display",serif;letter-spacing:.3px}
+.brand b{color:var(--gold)}
+.brand small{display:block;font:10px "DM Sans",sans-serif;color:#c6d2c8;letter-spacing:2.7px;margin-top:4px}
+.navlinks{display:flex;align-items:center;gap:23px;font-size:12px}
+.navlinks a:hover{color:var(--gold)}
+.navright{display:flex;gap:9px;align-items:center}
+.menu,.saved-btn{background:transparent;border:1px solid #ffffff40;color:white;padding:10px 13px;border-radius:4px}
+.menu{display:none}
+.hero{min-height:650px;display:flex;align-items:center;color:white;position:relative;background:#10251c;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#07180ee8 0%,#07180e99 55%,#07180e25 100%),url("https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=2200&q=85") center/cover}
+.hero:after{content:"";position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(transparent,var(--cream))}
+.hero-content{position:relative;z-index:2;padding:90px 0 115px;max-width:760px;animation:rise .8s ease}
+.eyebrow{color:#b08a42;font-size:10px;letter-spacing:3px;font-weight:700;text-transform:uppercase}
+.hero .eyebrow{color:var(--gold)}
+h1,h2,h3{font-family:"Playfair Display",serif}
+h1{font-size:clamp(48px,7.7vw,90px);line-height:1;letter-spacing:-1.5px;margin:24px 0}
+h1 em{color:var(--gold);font-weight:500}
+.hero p{max-width:580px;color:#e1e9e2;font-size:16px;line-height:1.9}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 19px;border-radius:3px;border:1px solid transparent;background:var(--gold);color:var(--g);font-weight:700;font-size:12px;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-outline{background:transparent;color:white;border-color:#ffffff80}
+.btn-green{background:var(--g);color:white}
+.section{padding:82px 0}
+.stats{padding:0;position:relative;z-index:4;margin-top:-28px}
+.statgrid{display:grid;grid-template-columns:repeat(4,1fr);background:white;box-shadow:0 15px 45px #10251c15;border-radius:5px}
+.stat{padding:23px 25px;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat strong{display:block;font:700 27px "Playfair Display",serif;color:var(--g)}
+.stat span{display:block;color:var(--muted);font-size:11px;margin-top:6px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:28px}
+.head h2{font-size:clamp(33px,4.5vw,50px);line-height:1.08;margin:12px 0 0}
+.head p{max-width:500px;color:var(--muted);font-size:13px;line-height:1.9;margin:0}
+.searchrow{display:flex;gap:10px;margin:25px 0 15px}
+.searchrow input{width:100%;padding:15px 16px;background:white;border:1px solid var(--line);outline-color:var(--gold);border-radius:4px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0 28px}
+.filter{border:1px solid #d8dfd7;background:transparent;border-radius:25px;padding:9px 15px;color:#536257;font-size:11px;font-weight:700}
+.filter.active,.filter:hover{background:var(--g);border-color:var(--g);color:white}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:white;border:1px solid #10251c0c;border-radius:5px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 5px 20px #10251c07;transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 17px 40px #10251c18}
+.photo{height:225px;position:relative;overflow:hidden;background:#dfe8dc}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.card:hover .photo img{transform:scale(1.06)}
+.tag{position:absolute;left:13px;top:13px;background:#10251ce8;color:white;padding:7px 10px;font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.heart{position:absolute;right:12px;top:12px;width:37px;height:37px;border-radius:50%;border:1px solid #ffffff90;background:#10251ca8;color:white;font-size:19px}
+.heart.saved{background:var(--gold);color:var(--g)}
+.cardbody{padding:20px;display:flex;flex:1;flex-direction:column}
+.cardbody h3{font-size:23px;margin:0 0 9px;line-height:1.2}
+.cardbody p{color:var(--muted);font-size:12px;line-height:1.85;margin:0 0 17px}
+.cardfoot{border-top:1px solid var(--line);padding-top:14px;margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;color:var(--muted)}
+.more{border:0;background:none;color:var(--g);font-size:11px;font-weight:700;padding:5px 0}
+.more:hover{color:#a57c30}
+.empty{grid-column:1/-1;background:white;padding:40px;text-align:center;color:var(--muted)}
+.darksection{background:var(--g);color:white}
+.featuregrid{display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center}
+.featureimage{height:440px;width:100%;object-fit:cover;border-radius:4px}
+.featurecopy h2{font-size:clamp(35px,4.5vw,51px);line-height:1.1;margin:15px 0}
+.featurecopy p{font-size:13px;line-height:2;color:#c7d5ca}
+.featurelist{list-style:none;padding:0;margin:25px 0;display:grid;gap:14px}
+.featurelist li{font-size:12px;color:#e5ede6}
+.featurelist span{color:var(--gold);margin-right:10px}
+.villageintro{background:#e8ede5}
+.villagebanner{padding:30px;background:var(--g);color:white;border-radius:4px;margin-bottom:25px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.villagebanner h3{font-size:27px;margin:0 0 8px}
+.villagebanner p{font-size:12px;line-height:1.8;color:#cbd8ce;max-width:600px;margin:0}
+.villagebanner .btn{flex-shrink:0}
+.blockgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.block{padding:19px;background:white;border:1px solid #dfe6dc;border-radius:4px}
+.block strong{font:20px "Playfair Display",serif}
+.block span{display:block;font-size:10px;color:var(--muted);margin-top:6px}
+.block a{display:inline-block;color:#956f2c;font-size:10px;font-weight:700;margin-top:12px}
+.tipgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tip{padding:25px;background:white;border:1px solid var(--line)}
+.tip .num{font:30px "Playfair Display",serif;color:#b28b43}
+.tip h3{font-size:22px;margin:12px 0 8px}
+.tip p{font-size:12px;color:var(--muted);line-height:1.9;margin:0}
+.mapbox{display:grid;grid-template-columns:.85fr 1.15fr;background:#e7ece4;border-radius:5px;overflow:hidden}
+.mapcopy{padding:36px}
+.mapcopy h2{font-size:39px;line-height:1.1;margin:13px 0}
+.mapcopy p{font-size:12px;line-height:1.9;color:var(--muted)}
+.mapbox iframe{width:100%;height:360px;border:0}
+.gallerygrid{display:grid;grid-template-columns:1.25fr 1fr 1fr;grid-template-rows:180px 180px;gap:12px}
+.gallerygrid img{width:100%;height:100%;object-fit:cover;border-radius:3px}
+.gallerygrid img:first-child{grid-row:span 2}
+footer{background:#09170f;color:white;padding:50px 0 23px}
+.footgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px;padding-bottom:30px}
+footer p,footer li,footer a{font-size:11px;line-height:2;color:#b6c5b9}
+footer h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+footer ul{padding-left:16px}
+footer a:hover{color:var(--gold)}
+.credits{border-top:1px solid #ffffff20;padding-top:20px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:#9caea1;font-size:10px}
+.credits strong{color:var(--gold)}
+.modalbg{display:none;position:fixed;inset:0;background:#020b06c9;z-index:100;align-items:center;justify-content:center;padding:18px}
+.modalbg.open{display:flex}
+.modal{position:relative;background:var(--cream);max-width:680px;width:100%;max-height:90vh;overflow:auto;border-radius:5px}
+.modal>img{width:100%;height:280px;object-fit:cover;display:block}
+.modalbody{padding:25px}
+.modalbody h2{font-size:34px;margin:12px 0}
+.modalbody p{font-size:13px;color:var(--muted);line-height:1.9}
+.close{position:absolute;right:13px;top:13px;width:39px;height:39px;border:0;border-radius:50%;background:var(--g);color:white;font-size:23px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--g);color:white;padding:13px 18px;font-size:11px;z-index:150;display:none;border-radius:3px}
+.toast.show{display:block}
+.reveal{animation:rise .6s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:900px){.navlinks{gap:12px}.navlinks a{font-size:10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.featuregrid{gap:28px}}
+@media(max-width:650px){.nav{min-height:68px}.brand{font-size:17px}.menu{display:block}.navlinks{display:none;position:absolute;left:0;right:0;top:68px;background:var(--g);padding:22px 5%;flex-direction:column;align-items:flex-start;border-top:1px solid #ffffff20}.navlinks.open{display:flex}.saved-btn{font-size:10px;padding:9px}.hero{min-height:590px}.hero-content{padding:65px 0 100px}.hero p{font-size:14px}.section{padding:58px 0}.head{display:block}.head p{margin-top:18px}.statgrid{grid-template-columns:repeat(2,1fr)}.stat{padding:18px;border-bottom:1px solid var(--line)}.stat:nth-child(2){border-right:0}.stat:nth-child(3),.stat:nth-child(4){border-bottom:0}.grid,.featuregrid,.tipgrid,.blockgrid,.footgrid{grid-template-columns:1fr}.photo{height:240px}.featureimage{height:300px}.villagebanner{align-items:flex-start;flex-direction:column}.gallerygrid{grid-template-columns:1fr 1fr;grid-template-rows:150px 150px}.gallerygrid img:first-child{grid-row:span 2}.mapbox{grid-template-columns:1fr}.mapbox iframe{height:290px}.mapcopy{padding:27px}.credits{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
 </style>
-
 </head>
-
 <body>
-
-<div id="scene"></div>
-<div class="background"></div>
-
-<!-- ================= HEADER ================= -->
-
 <header>
-
-  <div class="logo">
-    <div class="logoCircle">C</div>
-    CHANDAULI
-  </div>
-
-  <nav>
-
-    <button onclick="scrollToSection('explorer')">
-      EXPLORE
-    </button>
-
-    <button onclick="scrollToSection('facts')">
-      FACTS
-    </button>
-
-    <button onclick="scrollToSection('footer')">
-      ABOUT
-    </button>
-
-  </nav>
-
+<div class="container nav">
+<a class="brand" href="#home">CHANDAULI <b>EXPLORER</b><small>THE SOUL OF EASTERN UTTAR PRADESH</small></a>
+<nav class="navlinks" id="navlinks">
+<a href="#home">Home</a><a href="#discover">Discover</a><a href="#villages">Villages</a><a href="#culture">Culture</a><a href="#gallery">Gallery</a><a href="#map">Map</a>
+</nav>
+<div class="navright"><button class="saved-btn" id="savedBtn">♡ Saved <span id="savedCount">0</span></button><button class="menu" id="menuBtn" aria-label="Toggle navigation">☰</button></div>
+</div>
 </header>
 
+<main>
+<section class="hero" id="home"><div class="container hero-content">
+<div class="eyebrow">A district full of stories · Uttar Pradesh</div>
+<h1>More than a place.<br>A world called<br><em>Chandauli.</em></h1>
+<p>Discover spectacular waterfalls, historic forts, sacred places, countryside life and the people and traditions that make Chandauli special.</p>
+<div class="actions"><a class="btn" href="#discover">Start exploring ↗</a><a class="btn btn-outline" href="#villages">Explore villages →</a></div>
+</div></section>
 
-<!-- ================= HERO ================= -->
+<div class="stats"><div class="container statgrid">
+<div class="stat"><strong>1,651</strong><span>Villages in the district</span></div>
+<div class="stat"><strong>9</strong><span>Administrative blocks</span></div>
+<div class="stat"><strong>Nature</strong><span>Forests and waterfalls</span></div>
+<div class="stat"><strong>Heritage</strong><span>History and traditions</span></div>
+</div></div>
 
-<section class="hero">
-
-  <div class="heroContent">
-
-    <div class="eyebrow">
-      District of Uttar Pradesh
-    </div>
-
-    <h1>
-      CHANDAULI<br>
-      <span>EXPLORER</span>
-    </h1>
-
-    <p>
-      Discover the waterfalls, forests, rivers, dams,
-      heritage places, villages and culture of Chandauli —
-      the green gateway of eastern Uttar Pradesh.
-    </p>
-
-    <div class="buttons">
-
-      <button
-        class="btn gold"
-        onclick="scrollToSection('explorer')">
-        EXPLORE CHANDAULI
-      </button>
-
-      <a
-        class="btn outline"
-        href="https://www.google.com/maps/search/?api=1&query=Chandauli,Uttar+Pradesh"
-        target="_blank">
-        📍 VIEW DISTRICT MAP
-      </a>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ================= EXPLORER ================= -->
-
-<section class="explorer" id="explorer">
-
-<div class="container">
-
-  <div class="sectionTop">
-
-    <div>
-
-      <div class="label">
-        DISCOVER
-      </div>
-
-      <h2 class="title">
-        Places of Chandauli
-      </h2>
-
-    </div>
-
-    <input
-      id="search"
-      class="search"
-      placeholder="Search places..."
-      oninput="renderCards()">
-
-  </div>
-
-
-  <div class="filters">
-
-    <button
-      class="filter active"
-      onclick="setFilter('all',this)">
-      ALL
-    </button>
-
-    <button
-      class="filter"
-      onclick="setFilter('waterfall',this)">
-      WATERFALLS
-    </button>
-
-    <button
-      class="filter"
-      onclick="setFilter('dam',this)">
-      DAMS
-    </button>
-
-    <button
-      class="filter"
-      onclick="setFilter('heritage',this)">
-      HERITAGE
-    </button>
-
-    <button
-      class="filter"
-      onclick="setFilter('nature',this)">
-      NATURE
-    </button>
-
-    <button
-      class="filter"
-      onclick="setFilter('local',this)">
-      VILLAGES
-    </button>
-
-  </div>
-
-
-  <div
-    class="grid"
-    id="cards">
-  </div>
-
+<section class="section" id="discover"><div class="container">
+<div class="head"><div><div class="eyebrow">Your discovery starts here</div><h2>Explore every side<br>of Chandauli.</h2></div><p>Search destinations, discover heritage and browse village and locality profiles. Select a category to find what interests you.</p></div>
+<div class="searchrow"><input id="search" type="search" placeholder="Search places, villages, forts, temples..." aria-label="Search the explorer"></div>
+<div class="filters" id="filters">
+<button class="filter active" data-cat="All">Everything</button>
+<button class="filter" data-cat="Waterfall">Waterfalls</button>
+<button class="filter" data-cat="Nature">Nature</button>
+<button class="filter" data-cat="Dam">Dams & lakes</button>
+<button class="filter" data-cat="Heritage">Heritage</button>
+<button class="filter" data-cat="Village">Villages & localities</button>
+<button class="filter" data-cat="Culture">Culture & community</button>
 </div>
+<div class="grid" id="cards"></div>
+</div></section>
 
-</section>
+<section class="section villageintro" id="villages"><div class="container">
+<div class="head"><div><div class="eyebrow">The heart of the district</div><h2>Stories begin<br>in our villages.</h2></div><p>Village life is part of Chandauli's identity. Explore selected localities, discover nearby heritage and learn about the district's countryside.</p></div>
+<div class="villagebanner"><div><h3>From Ramgarh to Baluwa</h3><p>Explore places connected with local spiritual heritage, historic ruins, the Ganga and community traditions. A locality's inclusion here does not mean it is an officially designated tourist village.</p></div><a class="btn" href="#discover" id="villageExplore">Explore localities ↓</a></div>
+<div class="blockgrid" id="blocks"></div>
+</div></section>
 
+<section class="section darksection" id="culture"><div class="container featuregrid">
+<img class="featureimage" src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=85" alt="A green forest landscape" loading="lazy">
+<div class="featurecopy"><div class="eyebrow">Nature · People · Tradition</div><h2>Where nature and heritage meet.</h2>
+<p>Chandauli is known as the “Dhaan ka Katora” of Uttar Pradesh, reflecting the importance of rice cultivation in the district. Its landscape includes the Chakia plateau, the plains and the Ganga region.</p>
+<ul class="featurelist"><li><span>✦</span>Explore forests and natural landscapes.</li><li><span>✦</span>Discover local heritage and spiritual sites.</li><li><span>✦</span>Learn about farming and rural livelihoods.</li><li><span>✦</span>Respect community traditions and protect the environment.</li></ul>
+<a class="btn" href="https://chandauli.nic.in/" target="_blank" rel="noopener">Official district information ↗</a>
+</div></div></section>
 
-<!-- ================= FACTS ================= -->
+<section class="section" id="gallery"><div class="container">
+<div class="head"><div><div class="eyebrow">A visual journey</div><h2>Scenes to inspire<br>your next discovery.</h2></div><p>Landscape images give this gallery its visual style. Images are illustrative unless their captions identify a verified location.</p></div>
+<div class="gallerygrid">
+<img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=900&q=85" alt="Illustrative waterfall landscape" loading="lazy">
+<img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=700&q=85" alt="Illustrative forest landscape" loading="lazy">
+<img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=700&q=85" alt="Illustrative lake and hills" loading="lazy">
+<img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=700&q=85" alt="Illustrative mountain lake" loading="lazy">
+<img src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=700&q=85" alt="Illustrative woodland" loading="lazy">
+</div></div></section>
 
-<section class="facts" id="facts">
+<section class="section" id="travel"><div class="container">
+<div class="head"><div><div class="eyebrow">Explore responsibly</div><h2>Make every journey count.</h2></div><p>Plan your visit, support local communities and help preserve the natural and cultural places you discover.</p></div>
+<div class="tipgrid">
+<article class="tip"><div class="num">01</div><h3>Plan before you go</h3><p>Check road conditions, access rules, weather and local guidance before setting out.</p></article>
+<article class="tip"><div class="num">02</div><h3>Respect local life</h3><p>Ask permission before photographing people, respect religious customs and leave private property undisturbed.</p></article>
+<article class="tip"><div class="num">03</div><h3>Keep it beautiful</h3><p>Carry litter back, protect wildlife and stay away from unsafe water edges and restricted areas.</p></article>
+</div></div></section>
 
-<div class="container">
-
-  <div class="label">
-    CHANDAULI
-  </div>
-
-  <h2 class="title">
-    Quick Facts
-  </h2>
-
-  <div class="factGrid">
-
-    <div class="fact">
-      <strong>5</strong>
-      <span>Tehsils</span>
-    </div>
-
-    <div class="fact">
-      <strong>9</strong>
-      <span>Development Blocks</span>
-    </div>
-
-    <div class="fact">
-      <strong>1,651</strong>
-      <span>Villages</span>
-    </div>
-
-    <div class="fact">
-      <strong>Ganga</strong>
-      <span>Major River</span>
-    </div>
-
-    <div class="fact">
-      <strong>Rajdari</strong>
-      <span>Famous Waterfall</span>
-    </div>
-
-    <div class="fact">
-      <strong>1921</strong>
-      <span>Latif Shah Dam Completed</span>
-    </div>
-
-  </div>
-
+<section class="section" id="map"><div class="container mapbox">
+<div class="mapcopy"><div class="eyebrow">Navigate the district</div><h2>Chandauli,<br>on the map.</h2><p>Explore the district and open directions to selected destinations or localities. Always verify the destination and route before travelling.</p>
+<a class="btn" href="https://www.google.com/maps/search/tourist+places+in+Chandauli+Uttar+Pradesh/" target="_blank" rel="noopener">Open Google Maps ↗</a>
 </div>
+<iframe title="Map of Chandauli district" loading="lazy" src="https://maps.google.com/maps?q=Chandauli%2C%20Uttar%20Pradesh&z=9&output=embed"></iframe>
+</div></section>
+</main>
 
-</section>
-
-
-<!-- ================= MODAL ================= -->
-
-<div
-  class="modal"
-  id="modal">
-
-  <button
-    class="close"
-    onclick="closeModal()">
-    ×
-  </button>
-
-  <div
-    class="panel"
-    id="panel">
-  </div>
-
+<footer><div class="container">
+<div class="footgrid">
+<div><a class="brand" href="#home">CHANDAULI <b>EXPLORER</b><small>THE SOUL OF EASTERN UTTAR PRADESH</small></a><p>A digital discovery project celebrating Chandauli's nature, villages, heritage and culture. Built to help more people learn about the district.</p></div>
+<div><h4>Discover</h4><ul><li><a href="#discover">All destinations</a></li><li><a href="#villages">Villages & localities</a></li><li><a href="#culture">Culture & agriculture</a></li><li><a href="#gallery">Gallery</a></li></ul></div>
+<div><h4>Useful links</h4><ul><li><a href="https://chandauli.nic.in/tourist-places/" target="_blank" rel="noopener">Official tourist places</a></li><li><a href="https://chandauli.nic.in/block/" target="_blank" rel="noopener">Official block directory</a></li><li><a href="https://chandauli.nic.in/history/" target="_blank" rel="noopener">District history</a></li></ul></div>
 </div>
+<div class="credits"><span>© <span id="year"></span> Chandauli Explorer · A community discovery project</span><span>Made by <strong>Ashutosh Yadav</strong> and <strong>Anshu Kumar</strong></span></div>
+</div></footer>
 
-
-<!-- ================= FOOTER ================= -->
-
-<footer id="footer">
-
-<div class="container">
-
-  <h2>
-    Chandauli Explorer
-  </h2>
-
-  <p>
-    A digital exploration of Chandauli's natural beauty,
-    heritage, villages and culture.
-  </p>
-
-  <p>
-    Waterfall information and photographs are linked
-    to official Chandauli district information where available.
-  </p>
-
-  <p>
-    Made by
-    <span class="creator-name">Ashutosh Yadav</span>
-    and
-    <span class="creator-name">Anshu Kumar</span>
-  </p>
-
+<div class="modalbg" id="modalbg" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+<div class="modal"><button class="close" id="close" aria-label="Close details">×</button><img id="modalImg" src="" alt=""><div class="modalbody"><div class="eyebrow" id="modalCat"></div><h2 id="modalTitle"></h2><p id="modalDesc"></p><a class="btn" id="modalMap" href="#" target="_blank" rel="noopener">Open Google Maps ↗</a><button class="btn btn-green" id="modalSave">♡ Save place</button></div></div>
 </div>
-
-</footer>
-
-
-<!-- ================= THREE.JS ================= -->
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-
-/* ==========================================
-   3D BACKGROUND
-========================================== */
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
-  60,
-  window.innerWidth/window.innerHeight,
-  .1,
-  1000
-);
-
-camera.position.z=8;
-
-
-const renderer = new THREE.WebGLRenderer({
-  antialias:true,
-  alpha:true
-});
-
-renderer.setSize(
-  window.innerWidth,
-  window.innerHeight
-);
-
-renderer.setPixelRatio(
-  Math.min(window.devicePixelRatio,2)
-);
-
-document
-  .getElementById("scene")
-  .appendChild(renderer.domElement);
-
-
-/* PARTICLES */
-
-const geometry = new THREE.BufferGeometry();
-
-const count = 1500;
-
-const positions = new Float32Array(count*3);
-
-for(let i=0;i<count*3;i++){
-  positions[i]=(Math.random()-.5)*25;
-}
-
-geometry.setAttribute(
-  "position",
-  new THREE.BufferAttribute(positions,3)
-);
-
-const material = new THREE.PointsMaterial({
-  color:0x79b48d,
-  size:.035,
-  transparent:true,
-  opacity:.7
-});
-
-const particles = new THREE.Points(
-  geometry,
-  material
-);
-
-scene.add(particles);
-
-
-/* RINGS */
-
-const rings=[];
-
-for(let i=0;i<7;i++){
-
-  const geo=new THREE.TorusGeometry(
-    1.5+i*.35,
-    .012,
-    8,
-    80
-  );
-
-  const mat=new THREE.MeshBasicMaterial({
-    color:0xd8b45a,
-    transparent:true,
-    opacity:.12
-  });
-
-  const ring=new THREE.Mesh(geo,mat);
-
-  ring.position.set(
-    (Math.random()-.5)*7,
-    (Math.random()-.5)*5,
-    -3-i*.5
-  );
-
-  ring.rotation.x=Math.random()*2;
-  ring.rotation.y=Math.random()*2;
-
-  scene.add(ring);
-  rings.push(ring);
-}
-
-
-function animate(){
-
-  requestAnimationFrame(animate);
-
-  particles.rotation.y += .00025;
-  particles.rotation.x += .00008;
-
-  rings.forEach(r=>{
-    r.rotation.x += .0007;
-    r.rotation.z += .0005;
-  });
-
-  renderer.render(scene,camera);
-}
-
-animate();
-
-
-window.addEventListener("resize",()=>{
-
-  camera.aspect =
-    window.innerWidth/window.innerHeight;
-
-  camera.updateProjectionMatrix();
-
-  renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-  );
-
-});
-
-
-/* ==========================================
-   PLACES DATA
-========================================== */
-
-const places = [
-
-{
- name:"Rajdari Waterfall",
- type:"waterfall nature",
- category:"waterfall",
- label:"Waterfall • Nature",
-
- description:
- "Rajdari is one of the best-known waterfalls of Chandauli. It is located inside the Chandraprabha Wildlife Sanctuary and is surrounded by forests and rocky scenery.",
-
- location:"Chandraprabha Wildlife Sanctuary, Chandauli",
-
- best:"Monsoon and post-monsoon",
-
- photo:
- "https://chandauli.nic.in/wp-content/uploads/2018/04/Rajdari-waterfall.jpg",
-
- gallery:[
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/Rajdari-waterfall.jpg",
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/Rajdari_waterfall.jpg"
- ],
-
- map:"Rajdari Waterfall, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Devdari Waterfall",
- type:"waterfall nature",
- category:"waterfall",
- label:"Waterfall • Nature",
-
- description:
- "Devdari Waterfall is located in the Chandraprabha Wildlife Sanctuary. Water flows over rocky terrain surrounded by green forest.",
-
- location:"Chandraprabha Wildlife Sanctuary",
-
- best:"Monsoon and post-monsoon",
-
- photo:
- "https://chandauli.nic.in/wp-content/uploads/2018/04/devdari-waterfall.jpg",
-
- gallery:[
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/devdari-waterfall.jpg",
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/DevdariWaterfall.jpg"
- ],
-
- map:"Devdari Waterfall, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Aurvatard Waterfall",
- type:"waterfall nature",
- category:"waterfall",
- label:"Waterfall • Nature",
-
- description:
- "Aurvatard is one of the waterfalls listed among the natural attractions of Chandauli district.",
-
- location:"Chandauli district",
-
- best:"Monsoon",
-
- photo:
- "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1473445361085-b9a07f55608b?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Aurvatard Waterfall, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Karmnasha Waterfall",
- type:"waterfall nature",
- category:"waterfall",
- label:"Waterfall • Nature",
-
- description:
- "Karmnasha Waterfall is listed among the waterfalls and natural attractions of Chandauli.",
-
- location:"Chandauli district",
-
- best:"Monsoon",
-
- photo:
- "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Karmnasha Waterfall, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Latif Shah Dam",
- type:"dam nature",
- category:"dam",
- label:"Dam • River",
-
- description:
- "Latif Shah Dam was completed in 1921 and is built on the Karmanasha River.",
-
- location:"Near Chakia, Chandauli",
-
- best:"Winter and post-monsoon",
-
- photo:
- "https://chandauli.nic.in/wp-content/uploads/2018/04/Latifshah-Dam.jpg",
-
- gallery:[
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/Latifshah-Dam.jpg"
- ],
-
- map:"Latif Shah Dam, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Naugarh Dam",
- type:"dam nature",
- category:"dam",
- label:"Dam • Nature",
-
- description:
- "Naugarh Dam is one of the water resources of Chandauli district.",
-
- location:"Naugarh, Chandauli",
-
- best:"Winter and post-monsoon",
-
- photo:
- "https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1437482078695-73f5ca6c96e2?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Naugarh Dam, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Mushakhard Dam",
- type:"dam nature",
- category:"dam",
- label:"Dam • Water",
-
- description:
- "Mushakhard Dam is included among the dams and water resources of Chandauli.",
-
- location:"Chandauli district",
-
- best:"Winter",
-
- photo:
- "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Mushakhard Dam, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Latif Shah Tomb",
- type:"heritage",
- category:"heritage",
- label:"Heritage • Spiritual",
-
- description:
- "Latif Shah Tomb is associated with the Sufi saint Hazrat Latif Shah Beer Rahmatullah and is located near Chakia.",
-
- location:"Near Chakia, Chandauli",
-
- best:"Throughout the year",
-
- photo:
- "https://chandauli.nic.in/wp-content/uploads/2018/04/LatifShah-Tomb.jpg",
-
- gallery:[
-  "https://chandauli.nic.in/wp-content/uploads/2018/04/LatifShah-Tomb.jpg"
- ],
-
- map:"Latif Shah Tomb, Chakia, Chandauli"
-},
-
-
-{
- name:"Dhanapur Martyr Memorial",
- type:"heritage",
- category:"heritage",
- label:"History • Freedom Movement",
-
- description:
- "The Dhanapur Martyr Memorial commemorates people associated with India's freedom movement in the region.",
-
- location:"Dhanapur, Chandauli",
-
- best:"Throughout the year",
-
- photo:
- "https://chandaulitourism.in/assets/img/SAHID_SMARK_DHANAPUR/2.JPG",
-
- gallery:[
-  "https://chandaulitourism.in/assets/img/SAHID_SMARK_DHANAPUR/2.JPG"
- ],
-
- map:"Dhanapur Martyr Memorial, Chandauli"
-},
-
-
-{
- name:"Baba Kinaram Sacred Place",
- type:"heritage",
- category:"heritage",
- label:"Spiritual • Heritage",
-
- description:
- "Baba Kinaram's sacred place is an important cultural and spiritual attraction associated with Chandauli.",
-
- location:"Ramgarh, Chandauli",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Baba Kinaram, Ramgarh, Chandauli"
-},
-
-
-{
- name:"Chandraprabha Wildlife Sanctuary",
- type:"nature",
- category:"nature",
- label:"Forest • Wildlife",
-
- description:
- "Chandraprabha Wildlife Sanctuary contains forests, waterfalls and wildlife habitat. Rajdari and Devdari are its best-known attractions.",
-
- location:"Southern Chandauli",
-
- best:"Winter and monsoon",
-
- photo:
- "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Chandraprabha Wildlife Sanctuary, Chandauli"
-},
-
-
-{
- name:"Baburi",
- type:"local village",
- category:"local",
- label:"Village • Chandauli",
-
- description:
- "Baburi is a local settlement in Chandauli district. Explore its location and surrounding area using the map.",
-
- location:"Chandauli, Uttar Pradesh",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1500076656116-558758c991c1?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1473445361085-b9a07f55608b?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Baburi, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Agastipur",
- type:"local village",
- category:"local",
- label:"Village • Chandauli",
-
- description:
- "Agastipur is a village/settlement included in the Chandauli Explorer.",
-
- location:"Chandauli, Uttar Pradesh",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1472141521881-95d0e87e2e39?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Agastipur, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Ajagara",
- type:"local village",
- category:"local",
- label:"Village • Chandauli",
-
- description:
- "Ajagara is a local settlement in Chandauli district.",
-
- location:"Chandauli, Uttar Pradesh",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Ajagara, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Jamalpur",
- type:"local village",
- category:"local",
- label:"Village • Chandauli",
-
- description:
- "Jamalpur is a local settlement in Chandauli district.",
-
- location:"Chandauli, Uttar Pradesh",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Jamalpur, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Sarauli",
- type:"local village",
- category:"local",
- label:"Village • Chandauli",
-
- description:
- "Sarauli is a local settlement in Chandauli district.",
-
- location:"Chandauli, Uttar Pradesh",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Sarauli, Chandauli, Uttar Pradesh"
-},
-
-
-{
- name:"Dhanapur",
- type:"local heritage",
- category:"local",
- label:"Town • Heritage",
-
- description:
- "Dhanapur is an important location in Chandauli and is associated with the Dhanapur Martyr Memorial.",
-
- location:"Dhanapur, Chandauli",
-
- best:"Throughout the year",
-
- photo:
- "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80",
-
- gallery:[
-  "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=80"
- ],
-
- map:"Dhanapur, Chandauli, Uttar Pradesh"
-}
-
+const places=[
+{id:"rajdari",name:"Rajdari Waterfall",cat:"Waterfall",area:"Chandraprabha region",desc:"A major waterfall attraction in the Chandraprabha area, known for its dramatic cascade and natural surroundings. Check seasonal conditions and local safety guidance.",img:"https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1000&q=85",map:"Rajdari Waterfall Chandauli"},
+{id:"devdari",name:"Devdari Waterfall",cat:"Waterfall",area:"Chandraprabha region",desc:"A scenic waterfall surrounded by forested landscape. Stay on safe paths, avoid slippery edges and check local access conditions.",img:"https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1000&q=85",map:"Devdari Waterfall Chandauli"},
+{id:"sanctuary",name:"Chandraprabha Wildlife Sanctuary",cat:"Nature",area:"Chandauli",desc:"A protected natural area associated with forests, wildlife habitat and the well-known waterfalls of the district. Follow sanctuary rules and never disturb wildlife.",img:"https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85",map:"Chandraprabha Wildlife Sanctuary"},
+{id:"latifdam",name:"Latif Shah Dam",cat:"Dam",area:"Chandauli",desc:"A historic water structure completed in 1921, listed among Chandauli's tourist attractions. Visit only permitted public areas.",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=85",map:"Latif Shah Dam Chandauli"},
+{id:"naugarh",name:"Naugarh Dam & Region",cat:"Dam",area:"Naugarh",desc:"Explore the Naugarh area and its surrounding landscapes. Confirm road conditions, access and local visitor information before travelling.",img:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85",map:"Naugarh Dam Chandauli"},
+{id:"aurvatand",name:"Aurvatand Waterfall",cat:"Waterfall",area:"Chandauli region",desc:"A waterfall listed among the district's points of interest. Confirm the exact location, access and seasonal conditions with reliable local sources before visiting.",img:"https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&w=1000&q=85",map:"Aurvatand Waterfall Chandauli"},
+{id:"bhaisoda",name:"Bhaisoda Reservoir",cat:"Nature",area:"Chandauli region",desc:"A reservoir area mentioned among the district's water and landscape features. Use designated viewpoints and respect local restrictions.",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=85",map:"Bhaisoda Dam Chandauli"},
+{id:"latiftomb",name:"Latif Shah Tomb",cat:"Heritage",area:"Chandauli",desc:"A heritage site associated with Sufi saint Hazrat Latif Shah Beer. Respect the site's customs and check visitor access locally.",img:"https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=85",map:"Latif Shah Tomb Chandauli"},
+{id:"kinaram",name:"Baba Kinaram Sacred Place",cat:"Heritage",area:"Ramgarh",desc:"A spiritual destination connected with Baba Kinaram and the Aghor tradition. Ramgarh is noted in the district's history as associated with his birthplace.",img:"https://images.unsplash.com/photo-1606293926075-69a00dbb0b4?auto=format&fit=crop&w=1000&q=85",map:"Baba Kinaram Sthal Ramgarh Chandauli"},
+{id:"hetampur",name:"Hetampur Fort",cat:"Heritage",area:"Hetampur",desc:"The district's history page describes the remains of a fort at Hetampur and several ruined defensive structures. Check local access and protect historic remains.",img:"https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=85",map:"Hetampur Fort Chandauli"},
+{id:"dhanapur",name:"Dhanapur Martyr Memorial",cat:"Heritage",area:"Dhanapur",desc:"A memorial included among Chandauli's major places of interest. Learn about local history and honour the memory of those commemorated there.",img:"https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=85",map:"Dhanapur Martyr Memorial Chandauli"},
+{id:"chakia",name:"Chakiya Kali Mandir",cat:"Heritage",area:"Chakia",desc:"A religious place listed among the district's main attractions. Visitors should respect local customs and confirm any special timings or event arrangements.",img:"https://images.unsplash.com/photo-1606293926075-69a00dbb0b4?auto=format&fit=crop&w=1000&q=85",map:"Chakiya Kali Mandir Chandauli"},
+{id:"ramgarh",name:"Ramgarh Locality",cat:"Village",area:"Chahniya region",desc:"Ramgarh is historically associated with Baba Kinaram. Explore its heritage respectfully and confirm local visitor guidance before planning a visit.",img:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=85",map:"Ramgarh Chandauli Uttar Pradesh"},
+{id:"baluwa",name:"Baluwa & the Ganga",cat:"Village",area:"Sakaldiha region",desc:"The district history records Baluwa as a riverside place associated with the annual Pachchim Vahini Mela. Check the current festival dates and local arrangements.",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85",map:"Baluwa Ghat Chandauli"},
+{id:"hetampurlocal",name:"Hetampur Locality",cat:"Village",area:"Chandauli district",desc:"Explore a locality associated with the remains of Hetampur Fort. This profile highlights local history rather than claiming the entire locality is an official tourist village.",img:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=85",map:"Hetampur Chandauli"},
+{id:"chakiaarea",name:"Chakia & the Plateau",cat:"Nature",area:"Chakia",desc:"The Chakia plateau is one of the geographical regions described by the district administration. It includes hilly terrain and forested areas in parts of the south.",img:"https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85",map:"Chakia Chandauli Uttar Pradesh"},
+{id:"rice",name:"Dhaan ka Katora",cat:"Culture",area:"Across the district",desc:"Chandauli is widely known by the nickname Dhaan ka Katora, reflecting the importance of rice cultivation. Learn about local agriculture and rural livelihoods.",img:"https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=85",map:"Agricultural areas Chandauli Uttar Pradesh"},
+{id:"ganga",name:"Ganga Riverside",cat:"Culture",area:"Northern Chandauli",desc:"The Ganga is one of the major rivers associated with the district. Discover riverside heritage respectfully and follow local safety advice, especially during floods.",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85",map:"Ganga river Chandauli Uttar Pradesh"}
 ];
-
-
-/* ==========================================
-   FILTER
-========================================== */
-
-let activeFilter="all";
-
-
-function setFilter(filter,button){
-
-  activeFilter=filter;
-
-  document
-    .querySelectorAll(".filter")
-    .forEach(x=>x.classList.remove("active"));
-
-  button.classList.add("active");
-
-  renderCards();
+const blocks=["Barahani","Chandauli","Niyamatabad","Chahaniya","Sakaldiha","Dhanapur","Chakia","Shahabganj","Naugarh"];
+const cards=document.getElementById("cards"),search=document.getElementById("search");
+let active="All",saved=new Set(),savedOnly=false,current=null;
+try{saved=new Set(JSON.parse(localStorage.getItem("chandauliExplorer3Saved")||"[]"))}catch(e){}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function updateSaved(){document.getElementById("savedCount").textContent=saved.size;try{localStorage.setItem("chandauliExplorer3Saved",JSON.stringify([...saved]))}catch(e){}}
+function render(){
+const q=search.value.trim().toLowerCase();
+const list=places.filter(p=>(active==="All"||p.cat===active)&&(!savedOnly||saved.has(p.id))&&(p.name+" "+p.cat+" "+p.area+" "+p.desc).toLowerCase().includes(q));
+cards.innerHTML=list.length?list.map(p=>`<article class="card reveal"><div class="photo"><img loading="lazy" src="${p.img}" alt="${esc(p.name)}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80'"><span class="tag">${esc(p.cat)}</span><button class="heart ${saved.has(p.id)?"saved":""}" data-save="${p.id}" aria-label="Save ${esc(p.name)}">${saved.has(p.id)?"♥":"♡"}</button></div><div class="cardbody"><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p><div class="cardfoot"><span>⌖ ${esc(p.area)}</span><button class="more" data-open="${p.id}">Discover ↗</button></div></div></article>`).join(""):'<div class="empty">No results found. Try another keyword or select a different category.</div>';
 }
-
-
-/* ==========================================
-   CARD RENDER
-========================================== */
-
-function renderCards(){
-
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase();
-
-  const result = places.filter(p=>{
-
-    const filterOK =
-      activeFilter==="all" ||
-      p.category===activeFilter;
-
-    const searchOK =
-      p.name.toLowerCase().includes(search) ||
-      p.description.toLowerCase().includes(search);
-
-    return filterOK && searchOK;
-
-  });
-
-
-  document.getElementById("cards").innerHTML =
-
-    result.map((p,i)=>`
-
-      <article
-        class="card"
-        onclick="openPlace(${places.indexOf(p)})">
-
-        <div class="cardImage">
-
-          <img
-            src="${p.photo}"
-            alt="${p.name}"
-            onerror="this.style.display='none'">
-
-        </div>
-
-        <div class="cardContent">
-
-          <div class="cardType">
-            ${p.label}
-          </div>
-
-          <h3>
-            ${p.name}
-          </h3>
-
-          <p>
-            ${p.description.substring(0,145)}...
-          </p>
-
-        </div>
-
-      </article>
-
-    `).join("");
-}
-
-
-/* ==========================================
-   DETAIL MODAL
-========================================== */
-
-function openPlace(index){
-
-  const p=places[index];
-
-  const photo = p.photo
-    ?
-    `<img
-       src="${p.photo}"
-       alt="${p.name}"
-       onerror="this.style.display='none'">`
-    :
-    `<div style="
-       height:100%;
-       display:grid;
-       place-items:center;
-       font-size:70px;
-       background:#12352a;
-     ">📍</div>`;
-
-
-  const gallery = p.gallery
-    ?
-      p.gallery.map(img=>`
-        <img
-          src="${img}"
-          alt="${p.name} photo"
-          onerror="this.style.display='none'">
-      `).join("")
-    :
-      "";
-
-
-  document.getElementById("panel").innerHTML=`
-
-    <div class="detailHero">
-
-      ${photo}
-
-      <div class="detailTitle">
-
-        <small>
-          ${p.label}
-        </small>
-
-        <h2>
-          ${p.name}
-        </h2>
-
-      </div>
-
-    </div>
-
-
-    <div class="detailBody">
-
-      <p class="description">
-        ${p.description}
-      </p>
-
-
-      <div class="infoGrid">
-
-        <div class="info">
-
-          <span>
-            Location
-          </span>
-
-          <strong>
-            ${p.location}
-          </strong>
-
-        </div>
-
-
-        <div class="info">
-
-          <span>
-            Best Time
-          </span>
-
-          <strong>
-            ${p.best}
-          </strong>
-
-        </div>
-
-      </div>
-
-
-      <div style="margin-top:25px">
-
-        <a
-          class="btn gold"
-          href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.map)}"
-          target="_blank">
-
-          📍 OPEN IN GOOGLE MAPS
-
-        </a>
-
-      </div>
-
-
-      <h3 class="galleryTitle">
-        Photo Gallery
-      </h3>
-
-      <div class="gallery">
-
-        ${gallery}
-
-      </div>
-
-
-      <div style="margin-top:40px">
-
-        <div class="label">
-          LOCATION
-        </div>
-
-        <h3
-          style="
-          font-family:'Playfair Display',serif;
-          font-size:32px;
-          ">
-
-          Explore on Map
-
-        </h3>
-
-
-        <iframe
-          class="map"
-          loading="lazy"
-          src="https://www.google.com/maps?q=${encodeURIComponent(p.map)}&output=embed">
-        </iframe>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  document
-    .getElementById("modal")
-    .classList.add("open");
-
-  document.body.style.overflow="hidden";
-
-}
-
-
-function closeModal(){
-
-  document
-    .getElementById("modal")
-    .classList.remove("open");
-
-  document.body.style.overflow="";
-
-}
-
-
-document
-  .getElementById("modal")
-  .addEventListener("click",e=>{
-
-    if(e.target.id==="modal"){
-      closeModal();
-    }
-
-  });
-
-
-/* ==========================================
-   NAVIGATION
-========================================== */
-
-function scrollToSection(id){
-
-  document
-    .getElementById(id)
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-
-}
-
-
-/* ==========================================
-   INITIAL
-========================================== */
-
-renderCards();
-
+function notify(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(notify.timer);notify.timer=setTimeout(()=>t.classList.remove("show"),2200)}
+function toggleSave(id){if(saved.has(id)){saved.delete(id);notify("Removed from saved places")}else{saved.add(id);notify("Place saved on this browser")}updateSaved();render();if(current===id)updateModalSave()}
+function openModal(id){const p=places.find(x=>x.id===id);if(!p)return;current=id;document.getElementById("modalImg").src=p.img;document.getElementById("modalImg").alt=p.name;document.getElementById("modalCat").textContent=p.cat+" · "+p.area;document.getElementById("modalTitle").textContent=p.name;document.getElementById("modalDesc").textContent=p.desc;document.getElementById("modalMap").href="https://www.google.com/maps/search/"+encodeURIComponent(p.map)+"/";updateModalSave();document.getElementById("modalbg").classList.add("open");document.body.style.overflow="hidden"}
+function updateModalSave(){document.getElementById("modalSave").textContent=saved.has(current)?"♥ Saved — remove":"♡ Save place"}
+function closeModal(){document.getElementById("modalbg").classList.remove("open");document.body.style.overflow="";current=null}
+document.getElementById("filters").addEventListener("click",e=>{const b=e.target.closest("[data-cat]");if(!b)return;active=b.dataset.cat;document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x===b));render()});
+search.addEventListener("input",render);
+cards.addEventListener("click",e=>{const s=e.target.closest("[data-save]");if(s){toggleSave(s.dataset.save);return}const o=e.target.closest("[data-open]");if(o)openModal(o.dataset.open)});
+document.getElementById("savedBtn").addEventListener("click",()=>{savedOnly=!savedOnly;document.getElementById("savedBtn").style.color=savedOnly?"#dfbd78":"";render();document.getElementById("discover").scrollIntoView({behavior:"smooth"});notify(savedOnly?"Showing saved places":"Showing all places")});
+document.getElementById("close").addEventListener("click",closeModal);
+document.getElementById("modalbg").addEventListener("click",e=>{if(e.target.id==="modalbg")closeModal()});
+document.getElementById("modalSave").addEventListener("click",()=>{if(current)toggleSave(current)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+document.getElementById("menuBtn").addEventListener("click",()=>document.getElementById("navlinks").classList.toggle("open"));
+document.querySelectorAll(".navlinks a").forEach(a=>a.addEventListener("click",()=>document.getElementById("navlinks").classList.remove("open")));
+document.getElementById("villageExplore").addEventListener("click",()=>{active="Village";document.querySelectorAll(".filter").forEach(x=>x.classList.toggle("active",x.dataset.cat==="Village"));render()});
+document.getElementById("blocks").innerHTML=blocks.map(b=>`<div class="block"><strong>${b}</strong><span>Administrative block</span><a href="https://www.google.com/maps/search/${encodeURIComponent(b+" Chandauli Uttar Pradesh")}/" target="_blank" rel="noopener">Explore on map ↗</a></div>`).join("");
+document.getElementById("year").textContent=new Date().getFullYear();
+updateSaved();render();
 </script>
-
 </body>
-
 </html>
